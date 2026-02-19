@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Radar • Modelos de IA 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #000000;
+            --bg-card: #161616;
+            --bg-card-hover: #1f1f1f;
+            --accent-cyan: #00d4ff;
+            --accent-pink: #ff006e;
+            --accent-violet: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1a6;
+            --border-subtle: rgba(255,255,255,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.04) 0%, transparent 60%);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .last-update {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .category-tab {
+            padding: 0.6rem 1.25rem;
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .category-tab:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .category-tab.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+        }
+
+        /* Sections */
+        .rankings {
+            padding: 2rem 2rem 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        /* Category colors */
+        .section-chat .section-icon { background: rgba(0, 212, 255, 0.15); }
+        .section-chat .section-title { color: var(--accent-cyan); }
+        
+        .section-power .section-icon { background: rgba(255, 0, 110, 0.15); }
+        .section-power .section-title { color: var(--accent-pink); }
+        
+        .section-coding .section-icon { background: rgba(16, 185, 129, 0.15); }
+        .section-coding .section-title { color: var(--accent-green); }
+        
+        .section-image .section-icon { background: rgba(139, 92, 246, 0.15); }
+        .section-image .section-title { color: var(--accent-violet); }
+        
+        .section-video .section-icon { background: rgba(245, 158, 11, 0.15); }
+        .section-video .section-title { color: var(--accent-orange); }
+        
+        .section-audio .section-icon { background: rgba(239, 68, 68, 0.15); }
+        .section-audio .section-title { color: var(--accent-red); }
+
+        /* Grid */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Model Card */
+        .model-card {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 1.25rem;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .model-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .model-card:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .rank-badge.gold { background: linear-gradient(135deg, #ffd700, #ffb700); color: #000; }
+        .rank-badge.silver { background: linear-gradient(135deg, #e0e0e0, #a0a0a0); color: #000; }
+        .rank-badge.bronze { background: linear-gradient(135deg, #cd7f32, #b06520); }
+        .rank-badge.default { background: rgba(255,255,255,0.08); color: var(--text-secondary); }
+
+        .model-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.15rem;
+        }
+
+        .provider {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .model-stats {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 0.15rem;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(22, 22, 22, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.25s ease;
+            z-index: 50;
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .tooltip-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .tooltip-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+
+        .meta-label {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.6rem;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .benchmarks {
+            display: flex;
+            gap: 0.35rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .benchmark-tag {
+            padding: 0.2rem 0.4rem;
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 4px;
+            font-size: 0.6rem;
+            color: var(--accent-violet);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .model-card:nth-child(1) { animation: fadeInUp 0.4s ease-out 0.05s both; }
+        .model-card:nth-child(2) { animation: fadeInUp 0.4s ease-out 0.1s both; }
+        .model-card:nth-child(3) { animation: fadeInUp 0.4s ease-out 0.15s both; }
+        .model-card:nth-child(4) { animation: fadeInUp 0.4s ease-out 0.2s both; }
+        .model-card:nth-child(5) { animation: fadeInUp 0.4s ease-out 0.25s both; }
+        .model-card:nth-child(6) { animation: fadeInUp 0.4s ease-out 0.3s both; }
+        .model-card:nth-child(7) { animation: fadeInUp 0.4s ease-out 0.35s both; }
+        .model-card:nth-child(8) { animation: fadeInUp 0.4s ease-out 0.4s both; }
+
+        @media (max-width: 768px) {
+            header { padding: 0.75rem 1rem; flex-direction: column; gap: 0.5rem; }
+            .hero { padding: 6rem 1rem 2rem; }
+            .rankings { padding: 1.5rem 1rem 3rem; }
+            .models-grid { grid-template-columns: 1fr; }
+            .category-tab { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">◈</div>
+            AI Radar
+        </div>
+        <div class="last-update">Actualizado: <span id="date"></span></div>
+    </header>
+
+    <section class="hero">
+        <h1>Modelos de IA más Populares</h1>
+        <p>Rankings actualizados de los mejores modelos de inteligencia artificial por categoría</p>
+        
+        <div class="category-tabs">
+            <button class="category-tab active" data-category="chat">💬 Chat</button>
+            <button class="category-tab" data-category="power">⚡ Potencia</button>
+            <button class="category-tab" data-category="coding">💻 Programación</button>
+            <button class="category-tab" data-category="image">🖼️ Imágenes</button>
+            <button class="category-tab" data-category="video">🎬 Video</button>
+            <button class="category-tab" data-category="audio">🎵 Audio</button>
+        </div>
+    </section>
+
+    <main class="rankings">
+        <!-- Chat/Usage -->
+        <section class="section section-chat active" id="section-chat">
+            <div class="section-header">
+                <div class="section-icon">💬</div>
+                <h2 class="section-title">Por Uso</h2>
+            </div>
+            <div class="models-grid" id="chat-grid"></div>
+        </section>
+
+        <!-- Power -->
+        <section class="section section-power" id="section-power">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h2 class="section-title">Por Potencia</h2>
+            </div>
+            <div class="models-grid" id="power-grid"></div>
+        </section>
+
+        <!-- Coding -->
+        <section class="section section-coding" id="section-coding">
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h2 class="section-title">Programación</h2>
+            </div>
+            <div class="models-grid" id="coding-grid"></div>
+        </section>
+
+        <!-- Image -->
+        <section class="section section-image" id="section-image">
+            <div class="section-header">
+                <div class="section-icon">🖼️</div>
+                <h2 class="section-title">Generación de Imágenes</h2>
+            </div>
+            <div class="models-grid" id="image-grid"></div>
+        </section>
+
+        <!-- Video -->
+        <section class="section section-video" id="section-video">
+            <div class="section-header">
+                <div class="section-icon">🎬</div>
+                <h2 class="section-title">Generación de Video</h2>
+            </div>
+            <div class="models-grid" id="video-grid"></div>
+        </section>
+
+        <!-- Audio -->
+        <section class="section section-audio" id="section-audio">
+            <div class="section-header">
+                <div class="section-icon">🎵</div>
+                <h2 class="section-title">Generación de Audio</h2>
+            </div>
+            <div class="models-grid" id="audio-grid"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Datos actualizados desde <a href="#">fuentes públicas</a> • 2026</p>
+    </footer>
+
+    <script>
+        const categories = {
+            chat: [
+                { name: "ChatGPT", provider: "OpenAI", metric: "usuarios", value: "300M+", score: 1402, elo: "Elo", release: "Nov 2022", context: "128K", price: "$2.50", description: "El asistente de IA más popular del mundo. Versátil, creativo y excelente siguiendo instrucciones.", strengths: ["Conversación", "Código", "Escritura"], benchmarks: ["MMLU: 88.7%", "GPQA: 93.2%"] },
+                { name: "Meta AI", provider: "Meta", metric: "usuarios", value: "250M+", score: 1350, elo: "Elo", release: "Sep 2023", context: "128K", price: "Gratis", description: "IA integrada en WhatsApp, Instagram y Facebook. Acceso rápido y gratuito.", strengths: ["Gratis", "Integración", "Rápido"], benchmarks: ["MMLU: 83.2%", "GPQA: 78.5%"] },
+                { name: "Gemini", provider: "Google", metric: "usuarios", value: "200M+", score: 1389, elo: "Elo", release: "Dic 2023", context: "1M", price: "$1.25", description: "Modelo multimodal de Google con capacidades avanzadas de razonamiento.", strengths: ["Multimodal", "Búsqueda", "1M contexto"], benchmarks: ["MMLU: 89.8%", "GPQA: 87.5%"] },
+                { name: "Copilot", provider: "Microsoft", metric: "usuarios", value: "180M+", score: 1375, elo: "Elo", release: "Feb 2023", context: "128K", price: "$10", description: "Asistente integrado en Windows y Office. Especializado en productividad.", strengths: ["Productividad", "Código", "Office"], benchmarks: ["MMLU: 86.5%", "GPQA: 85.0%"] },
+                { name: "Claude", provider: "Anthropic", metric: "usuarios", value: "120M+", score: 1398, elo: "Elo", release: "Mar 2023", context: "200K", price: "$15", description: "Conocido por su seguridad excepcional y capacidades de análisis profundo.", strengths: ["Seguridad", "Análisis", "Escritura"], benchmarks: ["MMLU: 88.2%", "SWE-Bench: 72.5%"] },
+                { name: "Perplexity", provider: "Perplexity AI", metric: "usuarios", value: "80M+", score: 1360, elo: "Elo", release: "Ago 2022", context: "128K", price: "$5", description: "Motor de búsqueda con IA. Respuestas citeadas con fuentes en tiempo real.", strengths: ["Búsqueda", "Citas", "Investigación"], benchmarks: ["MMLU: 75.0%", "GPQA: 70.0%"] },
+                { name: "Grok", provider: "xAI", metric: "usuarios", value: "60M+", score: 1375, elo: "Elo", release: "Nov 2023", context: "131K", price: "$3", description: "Desarrollado por Elon Musk. Estilo único y humorístico con datos en tiempo real.", strengths: ["Tiempo real", "Humor", "Sarcasmo"], benchmarks: ["MMLU: 86.4%", "GPQA: 88.9%"] },
+                { name: "DeepSeek", provider: "DeepSeek", metric: "usuarios", value: "50M+", score: 1361, elo: "Elo", release: "Nov 2023", context: "64K", price: "$0.28", description: "Modelo de código abierto con rendimiento excepcional a bajo costo.", strengths: ["Código abierto", "Bajo costo", "Razonamiento"], benchmarks: ["MMLU: 85.9%", "SWE-Bench: 77.8%"] }
+            ],
+            power: [
+                { name: "GPT-5.2 Pro", provider: "OpenAI", metric: "benchmark", value: "#1", score: 1402, elo: "Chatbot", release: "Ene 2026", context: "128K", price: "$10", description: "El modelo más avanzado de OpenAI. Lidera en razonamiento y creatividad.", strengths: ["Razonamiento", "Creatividad", "Instrucciones"], benchmarks: ["MMLU: 88.7%", "GPQA: 93.2%", "SWE-Bench: 65.8%"] },
+                { name: "Claude Opus 4.6", provider: "Anthropic", metric: "benchmark", value: "#2", score: 1398, elo: "Chatbot", release: "Oct 2025", context: "200K", price: "$15", description: "El modelo más seguro y analítico. Excepcional en tareas técnicas.", strengths: ["Seguridad", "Análisis", "SWE-Bench"], benchmarks: ["MMLU: 88.2%", "SWE-Bench: 72.5%"] },
+                { name: "Gemini 3 Pro", provider: "Google", metric: "benchmark", value: "#3", score: 1389, elo: "Chatbot", release: "Ene 2026", context: "1M", price: "$1.25", description: "Multimodal de última generación. Excelente con contexto masivo.", strengths: ["Multimodal", "1M contexto", "Razonamiento"], benchmarks: ["MMLU: 89.8%", "GPQA: 87.5%"] },
+                { name: "Grok 4 Heavy", provider: "xAI", metric: "benchmark", value: "#4", score: 1375, elo: "Chatbot", release: "Dic 2025", context: "131K", price: "$3", description: "El modelo más 'humano' con acceso a datos en tiempo real.", strengths: ["Tiempo real", "Personalidad", "Razonamiento"], benchmarks: ["MMLU: 86.4%", "GPQA: 88.9%"] },
+                { name: "DeepSeek V3.2", provider: "DeepSeek", metric: "benchmark", value: "#5", score: 1361, elo: "Chatbot", release: "Ene 2026", context: "64K", price: "$0.28", description: "El rey del código. Mejor SWE-Bench a fracción del costo.", strengths: ["Código", "Bajo costo", "SWE-Bench"], benchmarks: ["SWE-Bench: 77.8%"] },
+                { name: "Claude Opus 4.5", provider: "Anthropic", metric: "benchmark", value: "#6", score: 1370, elo: "Chatbot", release: "Jul 2025", context: "200K", price: "$12", description: "Versión estable y confiable. Perfecto para uso empresarial.", strengths: ["Estable", "Consistencia", "Análisis"], benchmarks: ["MMLU: 87.1%", "SWE-Bench: 68.4%"] },
+                { name: "Qwen 3.5", provider: "Alibaba", metric: "benchmark", value: "#7", score: 1342, elo: "Chatbot", release: "Sep 2025", context: "128K", price: "$0.50", description: "El mejor modelo open-source chino. Competitivo con comerciales.", strengths: ["Open-source", "Código", "Bajo costo"], benchmarks: ["MMLU: 84.6%", "SWE-Bench: 62.5%"] },
+                { name: "GPT-5.2", provider: "OpenAI", metric: "benchmark", value: "#8", score: 1380, elo: "Chatbot", release: "Nov 2025", context: "128K", price: "$2.50", description: "Versión estándar. Equilibrio entre potencia y precio.", strengths: ["General", "Popular", "Versátil"], benchmarks: ["MMLU: 86.3%", "GPQA: 88.0%"] }
+            ],
+            coding: [
+                { name: "Claude Code", provider: "Anthropic", metric: "SWE-Bench", value: "72.5%", score: 80, elo: "%", release: "Oct 2025", context: "200K", price: "$15", description: "El mejor para codificación复杂的. 200K contexto y razonamiento extendido.", strengths: ["Contexto", "Refactoring", "Debug"], benchmarks: ["SWE-Bench: 72.5%", "HumanEval: 92%"] },
+                { name: "GPT-5.2 Codex", provider: "OpenAI", metric: "SWE-Bench", value: "70%", score: 78, elo: "%", release: "Nov 2025", context: "400K", price: "$3", description: "Variante especializada en código. 400K contexto sin precedentes.", strengths: ["Código", "400K contexto", "Autonomous"], benchmarks: ["SWE-Bench: 70%", "HumanEval: 95%"] },
+                { name: "Cursor", provider: "Anthropic/OpenAI", metric: "usuarios", value: "2M+", score: 75, elo: "devs", release: "2023", context: "200K", price: "$20", description: "IDE nativo de IA. Edita código en contexto con tu proyecto completo.", strengths: ["IDE", "Contexto", "Autocomplete"], benchmarks: ["Completion: 85%"] },
+                { name: "GitHub Copilot", provider: "Microsoft", metric: "usuarios", value: "2M+", score: 73, elo: "devs", release: "2021", context: "128K", price: "$10", description: "El estándar de la industria. Integración profunda con GitHub.", strengths: ["Integración", "GitHub", "Comunidad"], benchmarks: ["Completion: 80%"] },
+                { name: "DeepSeek Coder", provider: "DeepSeek", metric: "SWE-Bench", value: "77.8%", score: 77, elo: "%", release: "Ene 2026", context: "64K", price: "$0.28", description: "Código abierto. Mejor rendimiento en benchmarks a costo mínimo.", strengths: ["Open-source", "Bajo costo", "SWE-Bench"], benchmarks: ["SWE-Bench: 77.8%"] },
+                { name: "Gemini CLI", provider: "Google", metric: "usuarios", value: "500K+", score: 70, elo: "devs", release: "2024", context: "1M", price: "Gratis", description: "CLI gratuita de Google. Excelente para workflows en Cloud.", strengths: ["Gratis", "Cloud", "1M contexto"], benchmarks: ["CodeGen: 75%"] },
+                { name: "Qwen Coder", provider: "Alibaba", metric: "SWE-Bench", value: "62%", score: 65, elo: "%", release: "Sep 2025", context: "128K", price: "$0.50", description: "Open-source chino. Fuerte en código y económico.", strengths: ["Open-source", "Código", "Barato"], benchmarks: ["SWE-Bench: 62%"] },
+                { name: "Aider", provider: "Open Source", metric: "usuarios", value: "100K+", score: 68, elo: "devs", release: "2023", context: "200K", price: "Gratis", description: "CLI gratuito para pair programming con IA. Git-nativo.", strengths: ["Gratis", "Git", "CLI"], benchmarks: ["Edit: 70%"] }
+            ],
+            image: [
+                { name: "Midjourney v7", provider: "Midjourney", metric: "calidad", value: "#1", score: 95, elo: "calidad", release: "Ene 2026", context: "-", price: "$10", description: "El rey de la calidad artística. Fotorealismo y coherencia sin igual.", strengths: ["Arte", "Fotorealismo", "Estilo"], benchmarks: ["Human: 95%"] },
+                { name: "Flux 2", provider: "Black Forest Labs", metric: "calidad", value: "#2", score: 92, elo: "calidad", release: "2025", context: "-", price: "$10", description: "Open-source de alta calidad. Texto preciso y renderizado rápido.", strengths: ["Open-source", "Texto", "Rápido"], benchmarks: ["Text: 90%"] },
+                { name: "DALL-E 3.5", provider: "OpenAI", metric: "calidad", value: "#3", score: 90, elo: "calidad", release: "2024", context: "-", price: "$20", description: "Integración con ChatGPT. Mejor comprensión de prompts.", strengths: ["ChatGPT", "Prompts", "Consistencia"], benchmarks: ["Prompt: 95%"] },
+                { name: "Stable Diffusion 3.5", provider: "Stability AI", metric: "calidad", value: "#4", score: 88, elo: "calidad", release: "2024", context: "-", price: "Gratis", description: "El más personalizable. Self-hosting y fine-tuning.", strengths: ["Custom", "Open-source", "Local"], benchmarks: ["Control: 92%"] },
+                { name: "Ideogram 3.0", provider: "Ideogram", metric: "calidad", value: "#5", score: 87, elo: "calidad", release: "2025", context: "-", price: "Gratis", description: "El mejor para texto en imágenes. Texto legible y preciso.", strengths: ["Texto", "Diseño", "Gratis"], benchmarks: ["Text: 98%"] },
+                { name: "Adobe Firefly 3", provider: "Adobe", metric: "calidad", value: "#6", score: 85, elo: "calidad", release: "2024", context: "-", price: "$5", description: "Seguro para comerciales. Indemnización completa garantizada.", strengths: ["Comercial", "Seguro", "Photoshop"], benchmarks: ["Safe: 100%"] },
+                { name: "Imagen 3", provider: "Google", metric: "calidad", value: "#7", score: 88, elo: "calidad", release: "2024", context: "-", price: "$0", description: "De Google. Excelente calidad y multimodo con Gemini.", strengths: ["Google", "Multimodal", "Gratis"], benchmarks: ["Quality: 88%"] },
+                { name: "Recraft", provider: "Recraft AI", metric: "calidad", value: "#8", score: 82, elo: "calidad", release: "2024", context: "-", price: "Gratis", description: "Diseños vectoriales y arte digital. Excelente para branding.", strengths: ["Vector", "Branding", "Estilo"], benchmarks: ["Design: 85%"] }
+            ],
+            video: [
+                { name: "Seedance 2.0", provider: "Seedance", metric: "calidad", value: "#1", score: 95, elo: "calidad", release: "Feb 2026", context: "15s", price: "$10", description: "El más potente. Control multimodal y audio nativo.", strengths: ["Multimodal", "2K", "Audio"], benchmarks: ["Quality: 95%"] },
+                { name: "Kling 3.0", provider: "Kuaishou", metric: "calidad", value: "#2", score: 93, elo: "calidad", release: "Feb 2026", context: "2min", price: "$15", description: "El mejor para videos largos. Hasta 2 minutos de duración.", strengths: ["Largo", "2min", "Barato"], benchmarks: ["Length: 95%"] },
+                { name: "Sora 2", provider: "OpenAI", metric: "calidad", value: "#3", score: 92, elo: "calidad", release: "Dic 2025", context: "20s", price: "$20", description: "El de OpenAI. Storyboard mode y lenguaje superior.", strengths: ["Story", "Calidad", "Narrativa"], benchmarks: ["Story: 94%"] },
+                { name: "Veo 3.1", provider: "Google", metric: "calidad", value: "#4", score: 91, elo: "calidad", release: "Ene 2026", context: "60s", price: "$20", description: "Audio espacial nativo. 4K production ready.", strengths: ["4K", "Audio espacial", "Google"], benchmarks: ["4K: 92%"] },
+                { name: "Runway Gen-4", provider: "Runway", metric: "calidad", value: "#5", score: 89, elo: "calidad", release: "2025", context: "10s", price: "$15", description: "El favorito de cineastas. Editor integrado y Motion Brush.", strengths: ["Cine", "Editor", "Profesional"], benchmarks: ["Film: 90%"] },
+                { name: "Luma Dream Machine", provider: "Luma AI", metric: "calidad", value: "#6", score: 86, elo: "calidad", release: "2024", context: "5s", price: "$10", description: "Fuertes capacidades cinematográficas y espaciales.", strengths: ["Cinematic", "3D", "Espacial"], benchmarks: ["Cinema: 87%"] },
+                { name: "Pika 2.0", provider: "Pika Labs", metric: "calidad", value: "#7", score: 84, elo: "calidad", release: "2025", context: "3s", price: "$8", description: "El más fácil de usar. Perfecto para principiantes.", strengths: ["Fácil", "Rápido", "Social"], benchmarks: ["Beginner: 95%"] },
+                { name: "Wan 2.1", provider: "Wan AI", metric: "calidad", value: "#8", score: 80, elo: "calidad", release: "2024", context: "5s", price: "Gratis", description: "Open-source. Self-hosting completamente gratuito.", strengths: ["Open-source", "Gratis", "Local"], benchmarks: ["OSS: 85%"] }
+            ],
+            audio: [
+                { name: "Suno", provider: "Suno AI", metric: "calidad", value: "#1", score: 95, elo: "calidad", release: "2023", context: "4min", price: "$8", description: "El líder indiscutible. Canciones completas con voces y música.", strengths: ["Canciones", "Voces", "Editor"], benchmarks: ["Quality: 95%"] },
+                { name: "Wave Music", provider: "Wave AI", metric: "calidad", value: "#2", score: 93, elo: "calidad", release: "2025", context: "10min", price: "$12", description: "El estándar profesional. Audio de alta fidelidad para producción.", strengths: ["Profesional", "Fidelidad", "BGM"], benchmarks: ["Fidelity: 94%"] },
+                { name: "AI Song", provider: "AI Song", metric: "calidad", value: "#3", score: 90, elo: "calidad", release: "2025", context: "3min", price: "$10", description: "Mejor workflow para creators. Iteración rápida y estable.", strengths: ["Workflow", "Iteración", "Rápido"], benchmarks: ["Workflow: 92%"] },
+                { name: "Udio", provider: "Udio AI", metric: "calidad", value: "#4", score: 88, elo: "calidad", release: "2024", context: "2min", price: "$10", description: "Excelente para música y voces. Estilos diversos.", strengths: ["Voces", "Estilos", "Versátil"], benchmarks: ["Creativity: 90%"] },
+                { name: "Eleven Music", provider: "ElevenLabs", metric: "calidad", value: "#5", score: 92, elo: "calidad", release: "2024", context: "-", price: "$5", description: "El mejor para voces. Voz sintética ultra-realista.", strengths: ["Voces", "Realismo", "Emociones"], benchmarks: ["Voice: 98%"] },
+                { name: "Stable Audio", provider: "Stability AI", metric: "calidad", value: "#6", score: 85, elo: "calidad", release: "2024", context: "3min", price: "Gratis", description: "Open-source. Personalización total para audio.", strengths: ["Open-source", "Custom", "Gratis"], benchmarks: ["Control: 88%"] },
+                { name: "Minimax Music", provider: "Minimax", metric: "calidad", value: "#7", score: 82, elo: "calidad", release: "2024", context: "3min", price: "$5", description: "De China. Fuerte en música asiática y clásica.", strengths: ["Asia", "Clásica", "Barato"], benchmarks: ["Genre: 85%"] },
+                { name: "Sonauto", provider: "Sonauto", metric: "calidad", value: "#8", score: 80, elo: "calidad", release: "2024", context: "3min", price: "Gratis", description: "Gratis y simple. Ideal para experimentar.", strengths: ["Gratis", "Simple", "Experimental"], benchmarks: ["Free: 90%"] }
+            ]
+        };
+
+        function getRankClass(index) {
+            if (index === 0) return 'gold';
+            if (index === 1) return 'silver';
+            if (index === 2) return 'bronze';
+            return 'default';
+        }
+
+        function createCard(model, index) {
+            return `
+                <div class="model-card">
+                    <div class="card-header">
+                        <div class="rank-badge ${getRankClass(index)}">${index + 1}</div>
+                        <div class="model-info">
+                            <h3>${model.name}</h3>
+                            <span class="provider">${model.provider}</span>
+                        </div>
+                    </div>
+                    <div class="model-stats">
+                        <div class="stat">
+                            <div class="stat-value">${model.value}</div>
+                            <div class="stat-label">${model.metric}</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${model.score}</div>
+                            <div class="stat-label">Score</div>
+                        </div>
+                    </div>
+                    <div class="tooltip">
+                        <div class="tooltip-title">${model.name}</div>
+                        <div class="tooltip-desc">${model.description}</div>
+                        <div class="tooltip-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Lanzamiento</span>
+                                <span class="meta-value">${model.release}</span>
+                            </div>
+                            <div class="meta<span class="meta-item">
+                                model.context !==-label">${ '-' ? 'Duración' : 'Contexto'}</span>
+                                <span class="meta-value">${model.context}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Precio</span>
+                                <span class="meta-value">${model.price}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Fortalezas</span>
+                                <span class="meta-value">${model.strengths.join(', ')}</span>
+                            </div>
+                        </div>
+                        <div class="benchmarks">
+                            ${model.benchmarks.map(b => `<span class="benchmark-tag">${b}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function renderCategory(category) {
+            const grid = document.getElementById(`${category}-grid`);
+            const data = shuffleArray(categories[category]);
+            grid.innerHTML = data.map((model, i) => createCard(model, i)).join('');
+        }
+
+        function initCategories() {
+            Object.keys(categories).forEach(cat => renderCategory(cat));
+            
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(`section-${tab.dataset.category}`).classList.add('active');
+                });
+            });
+        }
+
+        document.getElementById('date').textContent = new Date().toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+
+        initCategories();
+    </script>
+</body>
+</html>
