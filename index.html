@@ -494,6 +494,7 @@
         <p>Datos actualizados desde <a href="#">fuentes públicas</a> • 2026</p>
     </footer>
 
+    <script src="utils.js"></script>
     <script>
         const categories = {
             chat: [
@@ -593,8 +594,8 @@
                                 <span class="meta-label">Lanzamiento</span>
                                 <span class="meta-value">${model.release}</span>
                             </div>
-                            <div class="meta<span class="meta-item">
-                                model.context !==-label">${ '-' ? 'Duración' : 'Contexto'}</span>
+                            <div class="meta-item">
+                                <span class="meta-label">${model.context === '-' ? 'Duración' : 'Contexto'}</span>
                                 <span class="meta-value">${model.context}</span>
                             </div>
                             <div class="meta-item">
@@ -648,6 +649,18 @@
             month: 'short',
             year: 'numeric'
         });
+
+        const currentRankings = {};
+        for (const cat of Object.keys(categories)) {
+            currentRankings[cat] = categories[cat].map(m => ({ name: m.name, score: m.score }));
+        }
+        
+        const { checkForChanges, showUpdateNotification, shuffleArray: utilShuffle } = utils;
+        const result = checkForChanges(currentRankings);
+        
+        if (result.hasChanges && !result.isFirstLoad) {
+            showUpdateNotification(result.changes);
+        }
 
         initCategories();
     </script>
