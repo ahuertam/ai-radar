@@ -64,21 +64,21 @@ const defaultRankings = {
     ]
 };
 
-export function getStoredRankings() {
+function getStoredRankings() {
     const stored = localStorage.getItem(AI_RANKINGS_KEY);
     return stored ? JSON.parse(stored) : null;
 }
 
-export function saveRankings(rankings) {
+function saveRankings(rankings) {
     localStorage.setItem(AI_RANKINGS_KEY, JSON.stringify(rankings));
     localStorage.setItem(LAST_UPDATE_KEY, new Date().toISOString());
 }
 
-export function getLastUpdate() {
+function getLastUpdate() {
     return localStorage.getItem(LAST_UPDATE_KEY);
 }
 
-export function checkForChanges(currentRankings) {
+function checkForChanges(currentRankings) {
     const stored = getStoredRankings();
     
     if (!stored) {
@@ -152,7 +152,7 @@ export function checkForChanges(currentRankings) {
     };
 }
 
-export function showUpdateNotification(changes) {
+function showUpdateNotification(changes) {
     const notification = document.createElement('div');
     notification.id = 'update-notification';
     notification.style.cssText = `
@@ -184,20 +184,22 @@ export function showUpdateNotification(changes) {
     }, 4000);
 }
 
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
+function initStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+}
 
-export function shuffleArray(array) {
+function shuffleArray(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -206,4 +208,4 @@ export function shuffleArray(array) {
     return shuffled;
 }
 
-export { defaultRankings };
+initStyles();

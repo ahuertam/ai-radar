@@ -655,7 +655,6 @@
             currentRankings[cat] = categories[cat].map(m => ({ name: m.name, score: m.score }));
         }
         
-        const { checkForChanges, showUpdateNotification, shuffleArray: utilShuffle } = utils;
         const result = checkForChanges(currentRankings);
         
         if (result.hasChanges && !result.isFirstLoad) {
